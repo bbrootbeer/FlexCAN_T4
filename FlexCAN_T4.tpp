@@ -27,6 +27,8 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
 */
+
+#warning "HEY! Using fork of FlexCAN_T4"
 #include <FlexCAN_T4.h>
 #include "imxrt_flexcan.h"
 #include "Arduino.h"
@@ -1342,8 +1344,10 @@ FCTP_FUNC bool FCTP_OPT::error(CAN_error_t &error, bool printDetails) {
   error.TX_WRN = (error.ESR1 & (1UL << 9)) ? 1 : 0;
   error.RX_WRN = (error.ESR1 & (1UL << 8)) ? 1 : 0;
 
-  if ( (error.ESR1 & 0x30) == 0x0 ) strncpy((char*)error.FLT_CONF, "Error Active", (sizeof(error.FLT_CONF) - 1));
-  else if ( (error.ESR1 & 0x30) == 0x1 ) strncpy((char*)error.FLT_CONF, "Error Passive", (sizeof(error.FLT_CONF) - 1));
+  // if ( (error.ESR1 & 0x30) == 0x0 ) strncpy((char*)error.FLT_CONF, "Error Active", (sizeof(error.FLT_CONF) - 1));
+  if ( (error.ESR1 & 0x30) == 0x0 ) strncpy((char*)error.FLT_CONF, "Err Active", (sizeof(error.FLT_CONF) - 1));
+  // else if ( (error.ESR1 & 0x30) == 0x1 ) strncpy((char*)error.FLT_CONF, "Error Passive", (sizeof(error.FLT_CONF) - 1));
+  else if ( (error.ESR1 & 0x30) == 0x1 ) strncpy((char*)error.FLT_CONF, "Err Passive", (sizeof(error.FLT_CONF) - 1));
   else strncpy((char*)error.FLT_CONF, "Bus off", (sizeof(error.FLT_CONF) - 1));
 
   error.RX_ERR_COUNTER = (uint8_t)(error.ECR >> 8);
